@@ -1,0 +1,97 @@
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #f5a623;
+    --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --ball-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    background: var(--bg-gradient);
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+}
+
+h1 {
+    margin-bottom: 2rem;
+    color: #2d3436;
+    font-weight: 700;
+}
+
+.balls-container {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    min-height: 60px;
+}
+
+.ball {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: white;
+    box-shadow: var(--ball-shadow);
+    transform: scale(0);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.ball.show {
+    transform: scale(1);
+}
+
+/* 로또 공 색상 규정 */
+.ball-1 { background: #fbc400; } /* 1-10 */
+.ball-11 { background: #69c8f2; } /* 11-20 */
+.ball-21 { background: #ff7272; } /* 21-30 */
+.ball-31 { background: #aaaaaa; } /* 31-40 */
+.ball-41 { background: #b0d840; } /* 41-45 */
+
+button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
+}
+
+button:hover {
+    background: #357abd;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.5);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.info {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #636e72;
+}
