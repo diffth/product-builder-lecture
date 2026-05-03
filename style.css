@@ -152,8 +152,33 @@ header {
 
 .result-message {
     font-size: 1.8rem;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     color: var(--text-color);
+}
+
+.result-details {
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: var(--secondary-color);
+    border-radius: 15px;
+}
+
+.result-comment {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+
+.detail-box {
+    text-align: left;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
+
+.detail-box strong {
+    color: #555;
+    margin-right: 5px;
 }
 
 .label-container {

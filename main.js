@@ -145,6 +145,19 @@ function stopWebcam() {
 }
 
 // Display Results
+const resultDetails = {
+    "강아지": {
+        "comment": "다정다감하고 사교적인 당신은 누구에게나 사랑받는 강아지상!",
+        "personality": "친절하고 활발한 성격으로 주변 사람들에게 긍정적인 에너지를 줍니다. 때로는 애교 넘치는 모습으로 분위기 메이커 역할을 하기도 하네요.",
+        "features": "선하고 동글동글한 눈매, 부드러운 인상이 특징입니다."
+    },
+    "고양이": {
+        "comment": "신비롭고 도도한 매력의 소유자, 당신은 완벽한 고양이상!",
+        "personality": "처음에는 조금 내성적일 수 있지만, 알면 알수록 깊은 매력을 가진 타입입니다. 독립심이 강하고 자기 주관이 뚜렷하며 센스 있는 감각을 가졌네요.",
+        "features": "눈꼬리가 살짝 올라간 매혹적인 눈매와 날카로운듯 세련된 턱선이 특징입니다."
+    }
+};
+
 function displayResults(prediction, isLive = false) {
     document.getElementById('loading').style.display = 'none';
     document.getElementById('prediction-results').style.display = 'block';
@@ -164,9 +177,26 @@ function displayResults(prediction, isLive = false) {
     
     resultMessage.innerText = `${emoji} 당신은 ${topResult.className}상 입니다!`;
 
+    // Add detailed commentary
+    let detailHtml = "";
+    if (resultDetails[topResult.className]) {
+        const details = resultDetails[topResult.className];
+        detailHtml = `
+            <div class="result-details">
+                <p class="result-comment">"${details.comment}"</p>
+                <div class="detail-box">
+                    <strong>성격:</strong> <span>${details.personality}</span>
+                </div>
+                <div class="detail-box">
+                    <strong>특징:</strong> <span>${details.features}</span>
+                </div>
+            </div>
+        `;
+    }
+
     // Clear previous bars if not live or if it's the first time
     if (!isLive || labelContainer.childNodes.length === 0) {
-        labelContainer.innerHTML = "";
+        labelContainer.innerHTML = detailHtml;
         for (let i = 0; i < maxPredictions; i++) {
             const barContainer = document.createElement("div");
             barContainer.className = "animal-bar-container";
