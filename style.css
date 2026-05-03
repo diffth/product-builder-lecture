@@ -8,6 +8,9 @@
     --info-color: #636e72;
     --ball-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     --btn-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
+    --input-bg: #f8f9fa;
+    --input-border: #dfe6e9;
+    --divider-color: #eee;
 }
 
 body.dark-mode {
@@ -18,6 +21,9 @@ body.dark-mode {
     --info-color: #a4b0be;
     --ball-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
     --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    --input-bg: #2f3542;
+    --input-border: #57606f;
+    --divider-color: #444;
 }
 
 body {
@@ -133,4 +139,64 @@ button:active {
 
 .theme-toggle:hover {
     transform: rotate(15deg) scale(1.1);
+}
+
+/* 제휴 문의 폼 스타일 */
+.divider {
+    margin: 2.5rem 0;
+    border: 0;
+    border-top: 1px solid var(--divider-color);
+}
+
+.contact-section h3 {
+    margin-bottom: 1.5rem;
+    color: var(--heading-color);
+    font-size: 1.2rem;
+}
+
+.input-group {
+    margin-bottom: 1rem;
+}
+
+.input-group input, 
+.input-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    background: var(--input-bg);
+    color: var(--text-color);
+    font-size: 0.95rem;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.input-group textarea {
+    height: 100px;
+    resize: none;
+}
+
+.input-group input:focus, 
+.input-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.submit-btn {
+    width: 100%;
+    background: #2d3436;
+    margin-top: 0.5rem;
+}
+
+body.dark-mode .submit-btn {
+    background: var(--primary-color);
+}
+
+.submit-btn:hover {
+    background: #000;
+}
+
+body.dark-mode .submit-btn:hover {
+    background: #357abd;
 }

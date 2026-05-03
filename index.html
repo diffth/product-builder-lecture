@@ -15,6 +15,24 @@
         </div>
         <button onclick="generateLotto()">번호 추첨하기</button>
         <p class="info">행운을 빕니다!</p>
+
+        <hr class="divider">
+        
+        <div class="contact-section">
+            <h3>제휴 및 문의</h3>
+            <form action="https://formspree.io/f/xwvyvapa" method="POST" id="contact-form">
+                <div class="input-group">
+                    <input type="text" name="name" placeholder="성함/업체명" required>
+                </div>
+                <div class="input-group">
+                    <input type="email" name="email" placeholder="이메일 주소" required>
+                </div>
+                <div class="input-group">
+                    <textarea name="message" placeholder="문의 내용을 입력해주세요" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">문의하기</button>
+            </form>
+        </div>
     </div>
     <script src="main.js"></script>
 </body>
