@@ -59,8 +59,61 @@
         </section>
 
         <footer>
-            <p>&copy; 2024 Animal Face AI. Powered by Teachable Machine</p>
+            <p>&copy; 2024 Animal Face AI. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#privacy-policy" onclick="showPrivacy()">개인정보처리방침</a> | 
+                <a href="#about-us">서비스 소개</a>
+            </div>
         </footer>
+    </div>
+
+    <!-- 추가 정보 섹션 (AdSense 최적화) -->
+    <div class="content-container">
+        <article id="guide-section" class="info-section">
+            <h2>인공지능 동물상 가이드</h2>
+            <div class="guide-grid">
+                <div class="guide-item">
+                    <h3>🐶 강아지상</h3>
+                    <p>전체적으로 둥글고 부드러운 인상을 가진 분들이 많습니다. 선한 눈매와 친근한 분위기가 특징이며, 상대방에게 신뢰감과 편안함을 주는 매력이 있습니다.</p>
+                </div>
+                <div class="guide-item">
+                    <h3>🐱 고양이상</h3>
+                    <p>눈꼬리가 살짝 올라가거나 턱선이 날렵하여 세련된 분위기를 풍깁니다. 도도하면서도 신비로운 매력을 가졌으며, 강한 자기 주관과 센스가 돋보이는 타입입니다.</p>
+                </div>
+            </div>
+        </article>
+
+        <article id="tech-section" class="info-section">
+            <h2>동물상 테스트는 어떻게 동작하나요?</h2>
+            <p>이 서비스는 딥러닝(Deep Learning) 기술인 <strong>Convolutional Neural Networks (CNN)</strong> 기술을 활용합니다. 사용자의 얼굴 사진에서 특징점(눈, 코, 입의 위치 및 형태)을 추출하여, 미리 학습된 동물별 데이터셋과 비교 분석합니다.</p>
+            <p>실시간 웹캠 분석의 경우, 초당 여러 프레임을 분석하여 당신의 표정 변화에 따른 미세한 특징까지 잡아냅니다.</p>
+        </article>
+
+        <article id="privacy-section" class="info-section">
+            <h2>🛡️ 보안 및 개인정보 보호</h2>
+            <p>본 서비스는 <strong>Privacy-First</strong> 정책을 준수합니다. 업로드하시거나 웹캠을 통해 촬영되는 모든 이미지는 <strong>클라이언트 사이드(브라우저)에서만 처리</strong>됩니다. 서버로 사진이 전송되거나 저장되지 않으므로 안심하고 이용하셔도 좋습니다.</p>
+        </article>
+
+        <article id="faq-section" class="info-section">
+            <h2>자주 묻는 질문 (FAQ)</h2>
+            <div class="faq-item">
+                <p class="q">Q. 테스트 결과가 정확한가요?</p>
+                <p class="a">A. AI 모델은 수많은 데이터를 기반으로 분석하지만, 조명이나 각도에 따라 결과가 달라질 수 있습니다. 가벼운 마음으로 즐겨주세요!</p>
+            </div>
+            <div class="faq-item">
+                <p class="q">Q. 무료로 이용 가능한가요?</p>
+                <p class="a">A. 네, 모든 서비스는 무료로 제공됩니다.</p>
+            </div>
+        </article>
+    </div>
+
+    <!-- 개인정보처리방침 모달 -->
+    <div id="privacy-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePrivacy()">&times;</span>
+            <h2>개인정보처리방침</h2>
+            <p>본 서비스는 사용자의 이미지를 서버로 전송하거나 저장하지 않습니다. 모든 분석은 사용자의 기기(브라우저) 내에서 로컬로 이루어지며, 개인을 식별할 수 있는 정보를 수집하지 않습니다.</p>
+        </div>
     </div>
 
     <!-- Scripts -->

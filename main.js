@@ -248,3 +248,20 @@ function displayResults(prediction, isLive = false) {
         }
     }
 }
+
+// Modal Logic
+function showPrivacy() {
+    document.getElementById('privacy-modal').style.display = 'block';
+}
+
+function closePrivacy() {
+    document.getElementById('privacy-modal').style.display = 'none';
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('privacy-modal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
