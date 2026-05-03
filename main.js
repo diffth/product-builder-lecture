@@ -179,8 +179,21 @@ function displayResults(prediction, isLive = false) {
 
     // Update detailed commentary
     const resultExplain = document.getElementById('result-explain');
-    if (resultDetails[topResult.className]) {
-        const details = resultDetails[topResult.className];
+    const className = topResult.className.trim();
+    
+    // Find matching details (robust matching)
+    let details = resultDetails[className];
+    if (!details) {
+        // If exact match fails, try partial match (e.g. "강아지상" vs "강아지")
+        for (const key in resultDetails) {
+            if (className.includes(key) || key.includes(className)) {
+                details = resultDetails[key];
+                break;
+            }
+        }
+    }
+
+    if (details) {
         resultExplain.innerHTML = `
             <p class="result-comment">"${details.comment}"</p>
             <div class="detail-box">
@@ -192,7 +205,9 @@ function displayResults(prediction, isLive = false) {
         `;
         resultExplain.style.display = 'block';
     } else {
-        resultExplain.style.display = 'none';
+        // Fallback message if no detailed match found
+        resultExplain.innerHTML = `<p class="result-comment">당신은 매력적인 ${className}상을 가졌군요!</p>`;
+        resultExplain.style.display = 'block';
     }
 
     // Clear previous bars if not live or if it's the first time
