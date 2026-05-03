@@ -33,7 +33,7 @@ function getBallColorClass(num) {
 
 async function generateLotto() {
     const container = document.getElementById('balls-container');
-    const button = document.querySelector('button');
+    const button = document.getElementById('generate-btn');
     
     // 초기화
     container.innerHTML = '';
