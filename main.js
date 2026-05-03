@@ -177,26 +177,27 @@ function displayResults(prediction, isLive = false) {
     
     resultMessage.innerText = `${emoji} 당신은 ${topResult.className}상 입니다!`;
 
-    // Add detailed commentary
-    let detailHtml = "";
+    // Update detailed commentary
+    const resultExplain = document.getElementById('result-explain');
     if (resultDetails[topResult.className]) {
         const details = resultDetails[topResult.className];
-        detailHtml = `
-            <div class="result-details">
-                <p class="result-comment">"${details.comment}"</p>
-                <div class="detail-box">
-                    <strong>성격:</strong> <span>${details.personality}</span>
-                </div>
-                <div class="detail-box">
-                    <strong>특징:</strong> <span>${details.features}</span>
-                </div>
+        resultExplain.innerHTML = `
+            <p class="result-comment">"${details.comment}"</p>
+            <div class="detail-box">
+                <strong>성격:</strong> <span>${details.personality}</span>
+            </div>
+            <div class="detail-box">
+                <strong>특징:</strong> <span>${details.features}</span>
             </div>
         `;
+        resultExplain.style.display = 'block';
+    } else {
+        resultExplain.style.display = 'none';
     }
 
     // Clear previous bars if not live or if it's the first time
     if (!isLive || labelContainer.childNodes.length === 0) {
-        labelContainer.innerHTML = detailHtml;
+        labelContainer.innerHTML = "";
         for (let i = 0; i < maxPredictions; i++) {
             const barContainer = document.createElement("div");
             barContainer.className = "animal-bar-container";
