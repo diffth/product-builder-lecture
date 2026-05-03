@@ -29,8 +29,9 @@ body.dark-mode {
 body {
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
     background: var(--bg-gradient);
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
+    padding: 40px 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,6 +47,7 @@ body {
     text-align: center;
     max-width: 500px;
     width: 90%;
+    margin: 20px auto;
     transition: background 0.3s ease;
 }
 
