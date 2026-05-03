@@ -1,68 +1,204 @@
-// 테마 토글 기능
-const themeToggle = document.getElementById('theme-toggle');
-const body = document.body;
+const URL = "https://teachablemachine.withgoogle.com/models/WuXa3kLZw/";
 
-// 초기 테마 설정 확인
-const currentTheme = localStorage.getItem('theme');
-if (currentTheme === 'dark') {
-    body.classList.add('dark-mode');
-    themeToggle.innerText = '🌙';
+let model, webcam, maxPredictions;
+let isWebcamStarted = false;
+
+// Load the image model
+async function init() {
+    const modelURL = URL + "model.json";
+    const metadataURL = URL + "metadata.json";
+
+    try {
+        model = await tmImage.load(modelURL, metadataURL);
+        maxPredictions = model.getTotalClasses();
+        console.log("Model loaded successfully");
+    } catch (error) {
+        console.error("Error loading model:", error);
+    }
 }
 
-themeToggle.addEventListener('click', () => {
-    body.classList.toggle('dark-mode');
-    
-    let theme = 'light';
-    if (body.classList.contains('dark-mode')) {
-        theme = 'dark';
-        themeToggle.innerText = '🌙';
-    } else {
-        themeToggle.innerText = '🌞';
-    }
-    
-    localStorage.setItem('theme', theme);
+// Call init on load
+init();
+
+// Mode Selection
+const uploadBtn = document.getElementById('upload-mode-btn');
+const webcamBtn = document.getElementById('webcam-mode-btn');
+const uploadContainer = document.getElementById('upload-container');
+const webcamContainer = document.getElementById('webcam-container');
+const resultSection = document.getElementById('result-section');
+
+uploadBtn.addEventListener('click', () => {
+    switchMode('upload');
 });
 
-function getBallColorClass(num) {
-    if (num <= 10) return 'ball-1';
-    if (num <= 20) return 'ball-11';
-    if (num <= 30) return 'ball-21';
-    if (num <= 40) return 'ball-31';
-    return 'ball-41';
+webcamBtn.addEventListener('click', () => {
+    switchMode('webcam');
+});
+
+function switchMode(mode) {
+    if (mode === 'upload') {
+        uploadBtn.classList.add('active');
+        webcamBtn.classList.remove('active');
+        uploadContainer.style.display = 'block';
+        webcamContainer.style.display = 'none';
+        stopWebcam();
+    } else {
+        webcamBtn.classList.add('active');
+        uploadBtn.classList.remove('active');
+        webcamContainer.style.display = 'block';
+        uploadContainer.style.display = 'none';
+    }
+    resultSection.style.display = 'none';
 }
 
-async function generateLotto() {
-    const container = document.getElementById('balls-container');
-    const button = document.getElementById('generate-btn');
-    
-    // 초기화
-    container.innerHTML = '';
-    button.disabled = true;
-    button.innerText = '추첨 중...';
+// Photo Upload Logic
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            const dropZone = document.getElementById('drop-zone');
+            const previewContainer = document.getElementById('image-preview-container');
+            const faceImage = document.getElementById('face-image');
 
-    const numbers = [];
-    while (numbers.length < 6) {
-        const num = Math.floor(Math.random() * 45) + 1;
-        if (!numbers.includes(num)) {
-            numbers.push(num);
+            dropZone.style.display = 'none';
+            faceImage.src = e.target.result;
+            previewContainer.style.display = 'block';
+
+            // Show results area and loading
+            resultSection.style.display = 'block';
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('prediction-results').style.display = 'none';
+
+            // Predict after a short delay to allow image to load
+            setTimeout(predictUpload, 500);
+        };
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        removeUpload();
+    }
+}
+
+function removeUpload() {
+    document.getElementById('file-input').value = "";
+    document.getElementById('image-preview-container').style.display = 'none';
+    document.getElementById('drop-zone').style.display = 'block';
+    resultSection.style.display = 'none';
+}
+
+async function predictUpload() {
+    if (!model) return;
+    const image = document.getElementById('face-image');
+    const prediction = await model.predict(image);
+    displayResults(prediction);
+}
+
+// Webcam Logic
+const startWebcamBtn = document.getElementById('start-webcam-btn');
+startWebcamBtn.addEventListener('click', async () => {
+    if (isWebcamStarted) return;
+    
+    startWebcamBtn.innerText = "웹캠 준비 중...";
+    const flip = true;
+    webcam = new tmImage.Webcam(300, 300, flip);
+    
+    try {
+        await webcam.setup();
+        await webcam.play();
+        window.requestAnimationFrame(loop);
+        
+        document.getElementById('webcam-feed').appendChild(webcam.canvas);
+        startWebcamBtn.style.display = 'none';
+        isWebcamStarted = true;
+        
+        resultSection.style.display = 'block';
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('prediction-results').style.display = 'block';
+    } catch (error) {
+        console.error("Webcam error:", error);
+        alert("웹캠을 시작할 수 없습니다. 권한을 확인해주세요.");
+        startWebcamBtn.innerText = "웹캠 시작하기";
+    }
+});
+
+async function loop() {
+    if (!isWebcamStarted) return;
+    webcam.update();
+    await predictWebcam();
+    window.requestAnimationFrame(loop);
+}
+
+async function predictWebcam() {
+    if (!model || !webcam) return;
+    const prediction = await model.predict(webcam.canvas);
+    displayResults(prediction, true);
+}
+
+function stopWebcam() {
+    if (webcam) {
+        webcam.stop();
+        const feed = document.getElementById('webcam-feed');
+        if (feed.firstChild) feed.removeChild(feed.firstChild);
+        startWebcamBtn.style.display = 'inline-block';
+        startWebcamBtn.innerText = "웹캠 시작하기";
+        isWebcamStarted = false;
+    }
+}
+
+// Display Results
+function displayResults(prediction, isLive = false) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('prediction-results').style.display = 'block';
+
+    const labelContainer = document.getElementById('label-container');
+    
+    // Sort prediction to find the best match
+    prediction.sort((a, b) => parseFloat(b.probability) - parseFloat(a.probability));
+    
+    const topResult = prediction[0];
+    const resultMessage = document.getElementById('result-message');
+    
+    // Custom messages based on animal
+    let emoji = "";
+    if (topResult.className === "강아지") emoji = "🐶";
+    else if (topResult.className === "고양이") emoji = "🐱";
+    
+    resultMessage.innerText = `${emoji} 당신은 ${topResult.className}상 입니다!`;
+
+    // Clear previous bars if not live or if it's the first time
+    if (!isLive || labelContainer.childNodes.length === 0) {
+        labelContainer.innerHTML = "";
+        for (let i = 0; i < maxPredictions; i++) {
+            const barContainer = document.createElement("div");
+            barContainer.className = "animal-bar-container";
+            
+            const label = document.createElement("div");
+            label.className = "animal-label";
+            label.innerHTML = `<span>${prediction[i].className}</span><span id="prob-${i}">0%</span>`;
+            
+            const barBg = document.createElement("div");
+            barBg.className = "bar-bg";
+            
+            const barFill = document.createElement("div");
+            barFill.className = "bar-fill";
+            barFill.id = `bar-${i}`;
+            barFill.style.width = "0%";
+            
+            barBg.appendChild(barFill);
+            barContainer.appendChild(label);
+            barContainer.appendChild(barBg);
+            labelContainer.appendChild(barContainer);
         }
     }
 
-    // 오름차순 정렬
-    numbers.sort((a, b) => a - b);
-
-    // 애니메이션과 함께 공 표시
-    for (let i = 0; i < numbers.length; i++) {
-        const ball = document.createElement('div');
-        ball.className = `ball ${getBallColorClass(numbers[i])}`;
-        ball.innerText = numbers[i];
-        container.appendChild(ball);
+    // Update bar values
+    for (let i = 0; i < maxPredictions; i++) {
+        const prob = (prediction[i].probability * 100).toFixed(0);
+        const barFill = document.getElementById(`bar-${i}`);
+        const probText = document.getElementById(`prob-${i}`);
         
-        // 약간의 시차를 두고 애니메이션 실행
-        await new Promise(resolve => setTimeout(resolve, 200));
-        ball.classList.add('show');
+        if (barFill && probText) {
+            barFill.style.width = prob + "%";
+            probText.innerText = prob + "%";
+        }
     }
-
-    button.disabled = false;
-    button.innerText = '다시 추첨하기';
 }

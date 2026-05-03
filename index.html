@@ -3,59 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로또 번호 추첨기</title>
+    <title>동물상 테스트 - 나를 닮은 동물은?</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">🌞</button>
     <div class="container">
-        <h1>로또 번호 추첨</h1>
-        <div class="balls-container" id="balls-container">
-            <!-- 번호가 여기에 생성됩니다 -->
-        </div>
-        <button id="generate-btn" onclick="generateLotto()">번호 추첨하기</button>
-        <p class="info">행운을 빕니다!</p>
+        <header>
+            <h1 class="title">동물상 테스트</h1>
+            <p class="subtitle">AI가 알려주는 당신을 닮은 동물!</p>
+        </header>
 
-        <hr class="divider">
-        
-        <div class="contact-section">
-            <h3>제휴 및 문의</h3>
-            <form action="https://formspree.io/f/xwvyvapa" method="POST" id="contact-form">
-                <div class="input-group">
-                    <input type="text" name="name" placeholder="성함/업체명" required>
-                </div>
-                <div class="input-group">
-                    <input type="email" name="email" placeholder="이메일 주소" required>
-                </div>
-                <div class="input-group">
-                    <textarea name="message" placeholder="문의 내용을 입력해주세요" required></textarea>
-                </div>
-                <button type="submit" class="submit-btn">문의하기</button>
-            </form>
-        </div>
+        <section class="mode-selector">
+            <button id="upload-mode-btn" class="mode-btn active">사진 업로드</button>
+            <button id="webcam-mode-btn" class="mode-btn">웹캠 실시간</button>
+        </section>
 
-        <hr class="divider">
-        
-        <div id="disqus_thread"></div>
-        <script>
-            /**
-            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-            /*
-            var disqus_config = function () {
-            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-            };
-            */
-            (function() { // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://productbuilder-rdi20wrlfv.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <main class="content-area">
+            <!-- 사진 업로드 영역 -->
+            <div id="upload-container" class="input-container active">
+                <div class="image-upload-wrap" id="drop-zone">
+                    <input class="file-upload-input" type='file' id="file-input" onchange="readURL(this);" accept="image/*" />
+                    <div class="drag-text">
+                        <img src="https://img.icons8.com/plasticine/100/000000/image.png" alt="upload icon">
+                        <h3>이미지를 끌어다 놓거나 클릭하여 업로드하세요</h3>
+                    </div>
+                </div>
+                <div class="file-upload-content" id="image-preview-container" style="display:none;">
+                    <img class="file-upload-image" id="face-image" src="#" alt="your image" />
+                    <div class="image-title-wrap">
+                        <button type="button" onclick="removeUpload()" class="remove-image">삭제 <span class="image-title">Uploaded Image</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 웹캠 영역 -->
+            <div id="webcam-container" class="input-container" style="display:none;">
+                <div id="webcam-feed"></div>
+                <button type="button" id="start-webcam-btn" class="action-btn">웹캠 시작하기</button>
+            </div>
+        </main>
+
+        <section id="result-section" class="result-area" style="display:none;">
+            <div id="loading" class="loading-spinner">
+                <p>AI가 분석 중입니다...</p>
+            </div>
+            <div id="prediction-results" style="display:none;">
+                <h2 id="result-message" class="result-message">결과 분석 중...</h2>
+                <div id="label-container" class="label-container">
+                    <!-- 결과 바(Bar)가 여기에 생성됩니다 -->
+                </div>
+                <button type="button" class="action-btn restart-btn" onclick="window.location.reload();">다시 시도하기</button>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2024 Animal Face AI. Powered by Teachable Machine</p>
+        </footer>
     </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

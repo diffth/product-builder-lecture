@@ -1,204 +1,231 @@
 :root {
-    --primary-color: #4a90e2;
-    --secondary-color: #f5a623;
-    --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --container-bg: rgba(255, 255, 255, 0.95);
+    --primary-color: #ffcc00;
+    --secondary-color: #fffbe6;
     --text-color: #333;
-    --heading-color: #2d3436;
-    --info-color: #636e72;
-    --ball-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    --btn-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
-    --input-bg: #f8f9fa;
-    --input-border: #dfe6e9;
-    --divider-color: #eee;
+    --accent-color: #ff6f61;
+    --bg-color: #fdfdfd;
 }
 
-body.dark-mode {
-    --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    --container-bg: rgba(30, 39, 46, 0.95);
-    --text-color: #f1f2f6;
-    --heading-color: #ffffff;
-    --info-color: #a4b0be;
-    --ball-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-    --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
-    --input-bg: #2f3542;
-    --input-border: #57606f;
-    --divider-color: #444;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-    background: var(--bg-gradient);
-    min-height: 100vh;
-    margin: 0;
-    padding: 40px 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--text-color);
-    transition: background 0.3s ease, color 0.3s ease;
+    min-height: 100vh;
+    padding: 20px;
 }
 
 .container {
-    background: var(--container-bg);
-    padding: 2.5rem;
+    background: #fff;
+    max-width: 600px;
+    width: 100%;
     border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 40px;
     text-align: center;
-    max-width: 500px;
-    width: 90%;
-    margin: 20px auto;
-    transition: background 0.3s ease;
 }
 
-h1 {
-    margin-bottom: 2rem;
-    color: var(--heading-color);
-    font-weight: 700;
+header {
+    margin-bottom: 30px;
 }
 
-.balls-container {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 2.5rem;
-    flex-wrap: wrap;
-    min-height: 60px;
+.title {
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    margin-bottom: 10px;
 }
 
-.ball {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: white;
-    box-shadow: var(--ball-shadow);
-    transform: scale(0);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.ball.show {
-    transform: scale(1);
-}
-
-/* 로또 공 색상 규정 */
-.ball-1 { background: #fbc400; } /* 1-10 */
-.ball-11 { background: #69c8f2; } /* 11-20 */
-.ball-21 { background: #ff7272; } /* 21-30 */
-.ball-31 { background: #aaaaaa; } /* 31-40 */
-.ball-41 { background: #b0d840; } /* 41-45 */
-
-button {
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 12px 30px;
+.subtitle {
     font-size: 1.1rem;
-    font-weight: 600;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: var(--btn-shadow);
+    color: #666;
 }
 
-button:hover {
-    background: #357abd;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.5);
-}
-
-button:active {
-    transform: translateY(0);
-}
-
-.info {
-    margin-top: 1.5rem;
-    font-size: 0.9rem;
-    color: var(--info-color);
-}
-
-.theme-toggle {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: var(--container-bg);
-    border: none;
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    cursor: pointer;
+/* Mode Selector */
+.mode-selector {
     display: flex;
     justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    font-size: 1.5rem;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.mode-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    background: #eee;
+    cursor: pointer;
+    font-weight: bold;
     transition: all 0.3s ease;
 }
 
-.theme-toggle:hover {
-    transform: rotate(15deg) scale(1.1);
+.mode-btn.active {
+    background: var(--accent-color);
+    color: #fff;
 }
 
-/* 제휴 문의 폼 스타일 */
-.divider {
-    margin: 2.5rem 0;
-    border: 0;
-    border-top: 1px solid var(--divider-color);
+/* Input Area */
+.content-area {
+    margin-bottom: 30px;
 }
 
-.contact-section h3 {
-    margin-bottom: 1.5rem;
-    color: var(--heading-color);
-    font-size: 1.2rem;
+.image-upload-wrap {
+    border: 4px dashed var(--primary-color);
+    border-radius: 15px;
+    position: relative;
+    padding: 40px 20px;
+    transition: background 0.3s;
 }
 
-.input-group {
-    margin-bottom: 1rem;
+.image-upload-wrap:hover {
+    background-color: var(--secondary-color);
 }
 
-.input-group input, 
-.input-group textarea {
+.file-upload-input {
+    position: absolute;
+    margin: 0;
+    padding: 0;
     width: 100%;
-    padding: 12px 15px;
-    border: 1px solid var(--input-border);
-    border-radius: 10px;
-    background: var(--input-bg);
-    color: var(--text-color);
-    font-size: 0.95rem;
-    box-sizing: border-box;
-    transition: all 0.3s ease;
-}
-
-.input-group textarea {
-    height: 100px;
-    resize: none;
-}
-
-.input-group input:focus, 
-.input-group textarea:focus {
+    height: 100%;
     outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+    opacity: 0;
+    cursor: pointer;
+    top: 0;
+    left: 0;
 }
 
-.submit-btn {
-    width: 100%;
-    background: #2d3436;
-    margin-top: 0.5rem;
+.drag-text h3 {
+    font-weight: 500;
+    color: #888;
+    margin-top: 15px;
 }
 
-body.dark-mode .submit-btn {
-    background: var(--primary-color);
+.file-upload-image {
+    max-height: 300px;
+    max-width: 100%;
+    margin: auto;
+    padding: 10px;
+    border-radius: 10px;
 }
 
-.submit-btn:hover {
-    background: #000;
+.remove-image {
+    margin-top: 15px;
+    color: #fff;
+    background: #cd4535;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s;
 }
 
-body.dark-mode .submit-btn:hover {
-    background: #357abd;
+.remove-image:hover {
+    background: #a9372a;
+}
+
+/* Webcam */
+#webcam-feed {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+#webcam-feed canvas {
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Result Area */
+.result-area {
+    margin-top: 40px;
+    padding: 20px;
+    border-top: 2px solid #eee;
+}
+
+.result-message {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.label-container {
+    margin-bottom: 25px;
+}
+
+.animal-bar-container {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.animal-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.bar-bg {
+    background-color: #eee;
+    border-radius: 10px;
+    height: 20px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    border-radius: 10px;
+    transition: width 1s ease-out;
+}
+
+.action-btn {
+    background-color: var(--primary-color);
+    border: none;
+    color: #fff;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(255, 204, 0, 0.4);
+    transition: transform 0.2s;
+}
+
+.action-btn:hover {
+    transform: scale(1.05);
+}
+
+.restart-btn {
+    background-color: #555;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Loading */
+.loading-spinner {
+    padding: 20px;
+    font-style: italic;
+    color: #888;
+}
+
+footer {
+    margin-top: 40px;
+    font-size: 0.9rem;
+    color: #999;
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+    }
+    .title {
+        font-size: 2rem;
+    }
 }
