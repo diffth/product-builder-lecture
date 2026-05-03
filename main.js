@@ -1,3 +1,28 @@
+// 테마 토글 기능
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+
+// 초기 테마 설정 확인
+const currentTheme = localStorage.getItem('theme');
+if (currentTheme === 'dark') {
+    body.classList.add('dark-mode');
+    themeToggle.innerText = '🌙';
+}
+
+themeToggle.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+    
+    let theme = 'light';
+    if (body.classList.contains('dark-mode')) {
+        theme = 'dark';
+        themeToggle.innerText = '🌙';
+    } else {
+        themeToggle.innerText = '🌞';
+    }
+    
+    localStorage.setItem('theme', theme);
+});
+
 function getBallColorClass(num) {
     if (num <= 10) return 'ball-1';
     if (num <= 20) return 'ball-11';
